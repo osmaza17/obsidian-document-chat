@@ -8,6 +8,7 @@ Chat with your vault documents using Claude AI. Load notes, PDFs and images into
 
 - **In-Obsidian chat**: Load files from your vault and ask Claude questions about them (requires an Anthropic API key).
 - **Send to Claude.ai**: Send your loaded documents to claude.ai as file attachments with one click, using your Claude subscription — no API key needed.
+- **Load folder**: Load all compatible files from an entire vault folder at once.
 - **Supported file types**: Markdown notes, plain text, PDFs, images, and most code files.
 - **@-mention**: Type `@` in the chat box to search and load any note from your vault.
 - **Drag & drop**: Drag files from the Obsidian file explorer directly into the panel.
@@ -81,7 +82,7 @@ The plugin icon (💬) will appear in the left ribbon of Obsidian.
 
 ### Part 2 — Chrome Extension
 
-The Chrome extension is needed to send your documents from Obsidian to claude.ai automatically. Without it, clicking "↗ Open in Claude.ai" will open claude.ai but the files won't be attached.
+The Chrome extension is needed to send your documents from Obsidian to claude.ai automatically. Without it, the "Open in Claude.ai" button will open claude.ai but the files won't be attached.
 
 #### Step 1 — Get the extension files
 
@@ -120,8 +121,10 @@ You can skip this entirely if you only plan to use the "Send to Claude.ai" butto
 
 Open the Document Chat panel by clicking the 💬 icon in the left ribbon, or via **Ctrl+P → Open Document Chat panel**.
 
-You can load documents in three ways:
-- **Click "＋ Load active file"** — loads the note you currently have open.
+The panel has four icon buttons in the toolbar. Hover over any of them to see their label. You can load documents in four ways:
+
+- **"Load active file" button** (file icon) — loads the note you currently have open in Obsidian.
+- **"Load folder" button** (folder icon) — opens a search popup where you can pick any folder in your vault; all compatible files inside it (up to 20) will be loaded at once.
 - **Type `@` in the chat box** — a search popup appears, type to find any file in your vault and press Enter to load it.
 - **Drag a file** from the Obsidian file explorer and drop it onto the panel.
 
@@ -136,7 +139,7 @@ Claude will respond based on the content of your loaded documents. You can keep 
 ### Sending documents to Claude.ai
 
 1. Load the documents you want (as described above).
-2. Click **"↗ Open in Claude.ai"**.
+2. Click the **"Open in Claude.ai"** button (external link icon).
 3. Chrome opens `claude.ai/new` and the extension automatically attaches your files.
 4. Type your question in Claude.ai and send.
 
