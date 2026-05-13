@@ -31,19 +31,22 @@ There are two ways to install the plugin:
 
 #### Option A — Manual install (recommended, no build needed)
 
-1. Download the latest release from the [Releases](../../releases) page. You need three files:
+1. Download this repository as a ZIP from GitHub:
+   **[https://github.com/osmaza17/obsidian-document-chat/archive/refs/heads/master.zip](https://github.com/osmaza17/obsidian-document-chat/archive/refs/heads/master.zip)**
+
+2. Extract the ZIP. You need three files from the root of the extracted folder:
    - `main.js`
    - `manifest.json`
    - `styles.css`
 
-2. Create a folder for the plugin inside your vault:
+3. Create a folder for the plugin inside your vault:
    ```
    <your-vault>/.obsidian/plugins/document-chat/
    ```
 
-3. Copy the three downloaded files into that folder.
+4. Copy the three files into that folder.
 
-4. Open Obsidian → **Settings → Community plugins** → toggle on **Document Chat**.
+5. Open Obsidian → **Settings → Community plugins** → toggle on **Document Chat**.
 
 #### Option B — Build from source
 
@@ -54,8 +57,8 @@ There are two ways to install the plugin:
 
 2. Clone this repository:
    ```bash
-   git clone https://github.com/osmaza17/document-chat.git
-   cd document-chat
+   git clone https://github.com/osmaza17/obsidian-document-chat.git
+   cd obsidian-document-chat
    ```
 
 3. Install dependencies and build:
@@ -79,7 +82,7 @@ The Chrome extension acts as a bridge between Obsidian and claude.ai. When you c
 
 #### Install steps
 
-1. Download or clone this repository if you haven't already.
+1. Download or clone this repository if you haven't already (see Part 1 above).
 
 2. Open Chrome and go to:
    ```
