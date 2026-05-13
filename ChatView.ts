@@ -1,4 +1,4 @@
-import { ItemView, MarkdownRenderer, TFile, WorkspaceLeaf } from "obsidian";
+import { FuzzySuggestModal, ItemView, MarkdownRenderer, Notice, TFile, TFolder, WorkspaceLeaf } from "obsidian";
 import type DocumentChatPlugin from "./main";
 import { AVAILABLE_MODELS } from "./main";
 import type { BridgeFile } from "./main";
@@ -134,6 +134,10 @@ export class ChatView extends ItemView {
     this.loadBtn.setText("＋ Load active file");
     this.loadBtn.onclick = () => this.loadActiveDocument();
 
+    const folderBtn = btnRow.createEl("button", { cls: "dc-btn dc-btn-ghost" });
+    folderBtn.setText("＋ Load folder");
+    folderBtn.onclick = () => new FolderPickerModal(this.app, (folder) => this.loadFolder(folder)).open();
+
     const clearBtn = btnRow.createEl("button", { cls: "dc-btn dc-btn-ghost" });
     clearBtn.setText("Clear chat");
     clearBtn.onclick = () => this.clearChat();
@@ -237,6 +241,10 @@ export class ChatView extends ItemView {
 
   // ── Load document ─────────────────────────────────────────────────────────
 
+  public openFolderPicker() {
+    new FolderPickerModal(this.app, (folder) => this.loadFolder(folder)).open();
+  }
+
   public async loadActiveDocument() {
     const activeFile = this.app.workspace.getActiveFile();
     if (!activeFile) { this.pushError("No active file. Open a file first."); return; }
@@ -293,6 +301,40 @@ export class ChatView extends ItemView {
       this.loadBtn.setText("＋ Load active file");
       this.inputEl.focus();
     }
+  }
+
+  async loadFolder(folder: TFolder) {
+    const SUPPORTED = new Set([
+      ...Array.from(TEXT_EXTS), ...Array.from(IMAGE_EXTS), ...Array.from(PDF_EXTS),
+    ]);
+    const MAX_FILES = 20;
+
+    const files: TFile[] = [];
+    const collect = (f: TFolder) => {
+      for (const child of f.children) {
+        if (child instanceof TFile && SUPPORTED.has(child.extension.toLowerCase())) files.push(child);
+        else if (child instanceof TFolder) collect(child);
+      }
+    };
+    collect(folder);
+
+    if (files.length === 0) {
+      new Notice(`No supported files found in "${folder.name}".`);
+      return;
+    }
+    if (files.length > MAX_FILES) {
+      new Notice(`"${folder.name}" has ${files.length} files — loading the first ${MAX_FILES}.`);
+      files.splice(MAX_FILES);
+    }
+
+    this.loadBtn.disabled = true;
+    let loaded = 0;
+    for (const file of files) {
+      await this.loadDocument(file);
+      loaded++;
+    }
+    this.loadBtn.disabled = false;
+    new Notice(`Loaded ${loaded} file(s) from "${folder.name}".`);
   }
 
   private removeDocument(id: string) {
@@ -726,6 +768,38 @@ export class ChatView extends ItemView {
     this.hideMentionPopup();
     if (this.modelOutsideHandler) document.removeEventListener("click", this.modelOutsideHandler);
     if (this.bridgeStatusInterval !== null) window.clearInterval(this.bridgeStatusInterval);
+  }
+}
+
+// ─── Folder picker modal ───────────────────────────────────────────────────────
+
+class FolderPickerModal extends FuzzySuggestModal<TFolder> {
+  private onChoose: (folder: TFolder) => void;
+
+  constructor(app: any, onChoose: (folder: TFolder) => void) {
+    super(app);
+    this.onChoose = onChoose;
+    this.setPlaceholder("Type a folder name…");
+  }
+
+  getItems(): TFolder[] {
+    const folders: TFolder[] = [];
+    const collect = (f: TFolder) => {
+      folders.push(f);
+      for (const child of f.children) {
+        if (child instanceof TFolder) collect(child);
+      }
+    };
+    collect(this.app.vault.getRoot());
+    return folders.slice(1); // exclude vault root
+  }
+
+  getItemText(folder: TFolder): string {
+    return folder.path;
+  }
+
+  onChooseItem(folder: TFolder): void {
+    this.onChoose(folder);
   }
 }
 

@@ -55,6 +55,18 @@ export default class DocumentChatPlugin extends Plugin {
     });
 
     this.addCommand({
+      id: "load-folder",
+      name: "Load folder into chat",
+      callback: async () => {
+        await this.activateChatView();
+        setTimeout(() => {
+          const leaves = this.app.workspace.getLeavesOfType(CHAT_VIEW_TYPE);
+          if (leaves.length > 0) (leaves[0].view as ChatView).openFolderPicker();
+        }, 100);
+      },
+    });
+
+    this.addCommand({
       id: "add-active-document",
       name: "Add active document to chat",
       callback: async () => {
