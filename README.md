@@ -6,150 +6,150 @@ Chat with your vault documents using Claude AI. Load notes, PDFs and images into
 
 ## What this plugin does
 
-- **In-Obsidian chat**: Load files from your vault and ask questions about them via the Anthropic API (requires an API key).
-- **Send to Claude.ai**: Send all documents loaded in the panel to claude.ai as file attachments with a single button click, using your Claude subscription.
-- **Multiple file types**: Markdown notes, plain text, PDFs, images, and most code files.
-- **@-mention**: Type `@` in the chat box to search and load any note in your vault.
+- **In-Obsidian chat**: Load files from your vault and ask Claude questions about them (requires an Anthropic API key).
+- **Send to Claude.ai**: Send your loaded documents to claude.ai as file attachments with one click, using your Claude subscription — no API key needed.
+- **Supported file types**: Markdown notes, plain text, PDFs, images, and most code files.
+- **@-mention**: Type `@` in the chat box to search and load any note from your vault.
 - **Drag & drop**: Drag files from the Obsidian file explorer directly into the panel.
+
+> **Platform note:** This plugin uses Node.js features that are only available on the Obsidian desktop app (Windows and macOS). It does not work on mobile.
 
 ---
 
-## Requirements
+## What you need before starting
 
-- [Obsidian](https://obsidian.md/) desktop (Windows or macOS — the plugin uses Node.js APIs, mobile is not supported)
-- [Node.js](https://nodejs.org/) — required only if you want to build from source
-- [Google Chrome](https://www.google.com/chrome/) — required for the "Send to Claude.ai" feature
-- A [Claude subscription](https://claude.ai) (for the claude.ai bridge) and/or an [Anthropic API key](https://console.anthropic.com) (for in-Obsidian chat)
+- [Obsidian](https://obsidian.md/) installed on your computer (desktop version)
+- [Google Chrome](https://www.google.com/chrome/) — only needed for the "Send to Claude.ai" feature
+- A [Claude subscription](https://claude.ai) (for the Claude.ai bridge) and/or an [Anthropic API key](https://console.anthropic.com) (for the in-Obsidian chat)
 
 ---
 
 ## Installation
 
+The installation has two parts: the **Obsidian plugin** and the **Chrome extension**. You need both if you want to use the "Send to Claude.ai" feature. If you only want in-Obsidian chat, you only need Part 1.
+
+---
+
 ### Part 1 — Obsidian Plugin
 
-There are two ways to install the plugin:
+#### Step 1 — Download the plugin files
 
-#### Option A — Manual install (recommended, no build needed)
+Go to this address in your browser and download the ZIP file:
 
-1. Download this repository as a ZIP from GitHub:
-   **[https://github.com/osmaza17/obsidian-document-chat/archive/refs/heads/master.zip](https://github.com/osmaza17/obsidian-document-chat/archive/refs/heads/master.zip)**
+**[https://github.com/osmaza17/obsidian-document-chat/archive/refs/heads/master.zip](https://github.com/osmaza17/obsidian-document-chat/archive/refs/heads/master.zip)**
 
-2. Extract the ZIP. You need three files from the root of the extracted folder:
-   - `main.js`
-   - `manifest.json`
-   - `styles.css`
+Once downloaded, extract the ZIP. You will get a folder called `obsidian-document-chat-master` with several files inside. **You only need three of them:**
 
-3. Create a folder for the plugin inside your vault:
-   ```
-   <your-vault>/.obsidian/plugins/document-chat/
-   ```
+- `main.js`
+- `manifest.json`
+- `styles.css`
 
-4. Copy the three files into that folder.
+You can ignore everything else.
 
-5. Open Obsidian → **Settings → Community plugins** → toggle on **Document Chat**.
+#### Step 2 — Create the plugin folder in your vault
 
-#### Option B — Build from source
+Obsidian stores plugins in a hidden folder called `.obsidian` inside your vault. You need to create a subfolder for this plugin.
 
-1. Make sure [Node.js](https://nodejs.org/) is installed. Verify with:
-   ```bash
-   node --version
-   ```
+1. Open your vault folder in Windows Explorer (it's the folder you chose when you created your vault in Obsidian).
+2. Make hidden folders visible: in Windows Explorer, click **View → Show → Hidden items**.
+3. Open the `.obsidian` folder, then open the `plugins` folder inside it. If the `plugins` folder does not exist, create it.
+4. Inside `plugins`, create a new folder called exactly `document-chat`.
 
-2. Clone this repository:
-   ```bash
-   git clone https://github.com/osmaza17/obsidian-document-chat.git
-   cd obsidian-document-chat
-   ```
+Your folder structure should look like this:
+```
+Your Vault/
+└── .obsidian/
+    └── plugins/
+        └── document-chat/       ← create this
+```
 
-3. Install dependencies and build:
-   ```bash
-   npm install
-   npm run build
-   ```
+#### Step 3 — Copy the files
 
-4. Copy `main.js`, `manifest.json` and `styles.css` into your vault's plugin folder:
-   ```
-   <your-vault>/.obsidian/plugins/document-chat/
-   ```
+Copy the three files you extracted earlier (`main.js`, `manifest.json`, `styles.css`) into the `document-chat` folder you just created.
 
-5. Enable the plugin in Obsidian → **Settings → Community plugins**.
+#### Step 4 — Enable the plugin in Obsidian
+
+1. Open Obsidian.
+2. Go to **Settings** (gear icon at the bottom left).
+3. Click **Community plugins** in the left sidebar.
+4. If it says "Restricted mode is on", click **Turn on community plugins**.
+5. Find **Document Chat** in the list and toggle it on.
+
+The plugin icon (💬) will appear in the left ribbon of Obsidian.
 
 ---
 
-### Part 2 — Chrome Extension (required for "Send to Claude.ai")
+### Part 2 — Chrome Extension
 
-The Chrome extension acts as a bridge between Obsidian and claude.ai. When you click **"↗ Open in Claude.ai"** in the plugin panel, the extension automatically attaches your loaded documents to a new claude.ai conversation.
+The Chrome extension is needed to send your documents from Obsidian to claude.ai automatically. Without it, clicking "↗ Open in Claude.ai" will open claude.ai but the files won't be attached.
 
-#### Install steps
+#### Step 1 — Get the extension files
 
-1. Download or clone this repository if you haven't already (see Part 1 above).
+You already downloaded and extracted the ZIP in Part 1. Inside the extracted folder, find the subfolder called `claude-bridge-extension`. You will need this entire folder.
 
-2. Open Chrome and go to:
-   ```
-   chrome://extensions
-   ```
+#### Step 2 — Install the extension in Chrome
 
-3. Enable **Developer mode** (toggle in the top-right corner).
+1. Open Google Chrome.
+2. Type `chrome://extensions` in the address bar and press Enter.
+3. In the top-right corner, enable **Developer mode** (toggle switch).
+4. Click the **"Load unpacked"** button that appears.
+5. In the file picker, navigate to the `claude-bridge-extension` folder and select it.
+6. The extension will appear in Chrome with the name "Obsidian → Claude Bridge".
 
-4. Click **"Load unpacked"** and select the `claude-bridge-extension` folder from this repository.
-
-5. The extension icon will appear in your Chrome toolbar. No further configuration is needed.
-
-#### How it works
-
-When you click **"↗ Open in Claude.ai"** in the Obsidian panel:
-
-1. The plugin stores the loaded documents in memory via a local HTTP server running on `localhost:27184`.
-2. Chrome opens `claude.ai/new` automatically.
-3. The extension's content script reads the files from the local server and attaches them to claude.ai's file input — exactly as if you had dragged the files in manually.
-4. Your files appear as attachments, ready for you to type your question and send.
-
-> **Note:** The local server only accepts connections from `127.0.0.1` and clears file data immediately after the extension reads it. No data is ever sent to any external server by the bridge.
+You do not need to configure anything else. The extension works automatically in the background whenever you are on claude.ai.
 
 ---
 
-## Plugin setup
+## Setup
 
-### API Key (for in-Obsidian chat)
+### API Key — for in-Obsidian chat
 
-1. Go to [console.anthropic.com](https://console.anthropic.com) and create an API key.
-2. In Obsidian, open **Settings → Document Chat** and paste your key.
+If you want to chat with documents directly inside Obsidian (without switching to the browser), you need an Anthropic API key:
 
-You can skip this if you only plan to use the claude.ai bridge.
+1. Go to [console.anthropic.com](https://console.anthropic.com), create an account and generate an API key.
+2. In Obsidian, go to **Settings → Community plugins → Document Chat → Settings** (gear icon next to the plugin).
+3. Paste your API key in the "Anthropic API Key" field.
 
-### Choosing a model
-
-Use the dropdown in the plugin panel header to switch between available Claude models. The model only affects in-Obsidian chat — claude.ai uses whatever model you have configured there.
+You can skip this entirely if you only plan to use the "Send to Claude.ai" button.
 
 ---
 
-## Usage
+## How to use it
 
-### In-Obsidian chat
+### Loading documents
 
-1. Open the **Document Chat** panel from the left ribbon (💬 icon) or via **Ctrl+P → Open Document Chat panel**.
-2. Load documents using any of these methods:
-   - Click **＋ Load active file** to load the currently open note.
-   - Type `@notename` in the chat box to search and load any vault file.
-   - Drag a file from the Obsidian file explorer onto the panel.
-3. Type your question and press **Enter** (or **Shift+Enter** for a new line).
+Open the Document Chat panel by clicking the 💬 icon in the left ribbon, or via **Ctrl+P → Open Document Chat panel**.
 
-### Send to Claude.ai
+You can load documents in three ways:
+- **Click "＋ Load active file"** — loads the note you currently have open.
+- **Type `@` in the chat box** — a search popup appears, type to find any file in your vault and press Enter to load it.
+- **Drag a file** from the Obsidian file explorer and drop it onto the panel.
 
-1. Load one or more documents into the panel (step 2 above).
-2. Click **↗ Open in Claude.ai**.
-3. Chrome opens a new claude.ai conversation with your files already attached.
-4. Type your question and send.
+Loaded files appear as chips at the top of the panel. You can remove them individually or click "Remove all".
 
-If no documents are loaded in the panel, the button sends the currently active file instead.
+### Chatting inside Obsidian
 
-You can also trigger this from anywhere via **Ctrl+P → Send active note to Claude (Bridge)**.
+Once you have loaded at least one document, type your question in the text box and press **Enter** to send. Press **Shift+Enter** for a new line.
+
+Claude will respond based on the content of your loaded documents. You can keep asking follow-up questions in the same conversation.
+
+### Sending documents to Claude.ai
+
+1. Load the documents you want (as described above).
+2. Click **"↗ Open in Claude.ai"**.
+3. Chrome opens `claude.ai/new` and the extension automatically attaches your files.
+4. Type your question in Claude.ai and send.
+
+If you have no documents loaded, the button sends the file you currently have open in Obsidian instead.
+
+You can also trigger this with the command **Ctrl+P → Send active note to Claude (Bridge)**, which always sends the currently open file.
 
 ### Bridge status indicator
 
-The small dot in the panel header shows whether the local bridge server is running:
-- 🟢 **Green** — bridge active, the Chrome extension can connect.
-- ⚫ **Grey** — bridge inactive. Try reloading the plugin (disable and re-enable in Settings → Community plugins).
+The small dot in the top-right of the plugin panel tells you whether the bridge is working:
+
+- **Green dot** — the bridge is active and the Chrome extension can receive files.
+- **Grey dot** — the bridge is not running. Fix: go to **Settings → Community plugins**, disable Document Chat and enable it again.
 
 ---
 
@@ -159,37 +159,62 @@ The small dot in the panel header shows whether the local bridge server is runni
 |---|---|
 | Send message | Enter |
 | New line in input | Shift+Enter |
-| Mention a note | @ |
+| Open @-mention search | @ |
 | Navigate mention list | ↑ / ↓ |
-| Select mention | Enter or Tab |
-| Dismiss mention popup | Escape |
-| Stop generation | Click "■ Stop" |
+| Select a mention | Enter or Tab |
+| Close mention popup | Escape |
+| Stop a response | Click "■ Stop" |
 
 ---
 
 ## Supported file types
 
-| Category | Extensions |
+| Type | Extensions |
 |---|---|
-| Notes | `.md`, `.txt`, `.markdown`, `.org` |
-| Code | `.js`, `.ts`, `.py`, `.rb`, `.java`, `.go`, `.rs`, `.cpp`, `.c`, `.cs`, `.swift`, `.kt` and more |
-| Data | `.json`, `.yaml`, `.toml`, `.xml`, `.csv` |
-| Web | `.html`, `.css`, `.scss` |
-| PDFs | `.pdf` |
-| Images | `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp` |
+| Notes | `.md` `.txt` `.markdown` `.org` |
+| Code | `.js` `.ts` `.py` `.rb` `.java` `.go` `.rs` `.cpp` `.c` `.cs` `.swift` `.kt` and more |
+| Data | `.json` `.yaml` `.toml` `.xml` `.csv` |
+| Web | `.html` `.css` `.scss` |
+| PDF | `.pdf` |
+| Images | `.png` `.jpg` `.jpeg` `.gif` `.webp` |
 
 ---
 
 ## Troubleshooting
 
-**The bridge status dot is grey**
-Disable and re-enable the plugin in **Settings → Community plugins**. If port `27184` is already in use by another application, the server cannot start.
+**The plugin does not appear in the Community plugins list**
+Make sure you placed the three files (`main.js`, `manifest.json`, `styles.css`) directly inside `.obsidian/plugins/document-chat/` and that the folder is named exactly `document-chat`.
 
-**Files are not being attached in claude.ai**
-Claude.ai may have updated their interface. Check that the extension is enabled in `chrome://extensions` and that you are on a `claude.ai` page when the files are sent. If the problem persists, open an issue on this repository.
+**The bridge status dot is grey**
+Disable and re-enable the plugin in **Settings → Community plugins**. If it remains grey, port `27184` may be in use by another application — try restarting your computer.
+
+**Files are not being attached in Claude.ai**
+Make sure the Chrome extension is enabled in `chrome://extensions`. If it is enabled but files are still not attaching, Claude.ai may have updated their interface in a way that breaks the extension — open an issue on this repository and we will look into it.
 
 **"No API key set" error in the chat panel**
-Go to **Settings → Document Chat** and enter your Anthropic API key from [console.anthropic.com](https://console.anthropic.com).
+Go to **Settings → Community plugins → Document Chat settings** and enter your Anthropic API key from [console.anthropic.com](https://console.anthropic.com).
+
+---
+
+## For developers — building from source
+
+If you want to modify the plugin code:
+
+1. Install [Node.js](https://nodejs.org/) (LTS version recommended).
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/osmaza17/obsidian-document-chat.git
+   cd obsidian-document-chat
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Build:
+   ```bash
+   npm run build
+   ```
+5. Copy the resulting `main.js`, `manifest.json` and `styles.css` into your vault's plugin folder.
 
 ---
 
