@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Obsidian → Claude Bridge",
+  "version": "1.0",
+  "description": "Sends notes from Obsidian directly into claude.ai",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": [
+    "http://localhost:27184/*",
+    "https://claude.ai/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Send Obsidian note to Claude"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://claude.ai/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

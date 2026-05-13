@@ -1,0 +1,11 @@
+{
+  "id": "document-chat",
+  "name": "Document Chat",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "Chat with your documents (MD, PDF, images, code...) using Claude AI, directly inside Obsidian.",
+  "author": "You",
+  "authorUrl": "",
+  "fundingUrl": "",
+  "isDesktopOnly": false
+}
