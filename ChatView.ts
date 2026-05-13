@@ -1,4 +1,4 @@
-import { FuzzySuggestModal, ItemView, MarkdownRenderer, Notice, TFile, TFolder, WorkspaceLeaf } from "obsidian";
+import { FuzzySuggestModal, ItemView, MarkdownRenderer, Notice, setIcon, TFile, TFolder, WorkspaceLeaf } from "obsidian";
 import type DocumentChatPlugin from "./main";
 import { AVAILABLE_MODELS } from "./main";
 import type { BridgeFile } from "./main";
@@ -130,21 +130,19 @@ export class ChatView extends ItemView {
     const controls = root.createDiv("dc-controls");
     const btnRow = controls.createDiv("dc-btn-row");
 
-    this.loadBtn = btnRow.createEl("button", { cls: "dc-btn dc-btn-primary" });
-    this.loadBtn.setText("＋ Load active file");
+    this.loadBtn = btnRow.createEl("button", { cls: "dc-btn dc-btn-primary dc-btn-icon" });
+    setIcon(this.loadBtn, "file-plus");
+    this.loadBtn.setAttribute("aria-label", "Load active file");
     this.loadBtn.onclick = () => this.loadActiveDocument();
 
-    const folderBtn = btnRow.createEl("button", { cls: "dc-btn dc-btn-ghost" });
-    folderBtn.setText("＋ Load folder");
+    const folderBtn = btnRow.createEl("button", { cls: "dc-btn dc-btn-ghost dc-btn-icon" });
+    setIcon(folderBtn, "folder-open");
+    folderBtn.setAttribute("aria-label", "Load folder");
     folderBtn.onclick = () => new FolderPickerModal(this.app, (folder) => this.loadFolder(folder)).open();
 
-    const clearBtn = btnRow.createEl("button", { cls: "dc-btn dc-btn-ghost" });
-    clearBtn.setText("Clear chat");
-    clearBtn.onclick = () => this.clearChat();
-
-    const bridgeBtn = btnRow.createEl("button", { cls: "dc-btn dc-btn-ghost dc-btn-bridge" });
-    bridgeBtn.setText("↗ Open in Claude.ai");
-    bridgeBtn.setAttribute("aria-label", "Send loaded documents to Claude.ai as attachments");
+    const bridgeBtn = btnRow.createEl("button", { cls: "dc-btn dc-btn-ghost dc-btn-icon dc-btn-bridge" });
+    setIcon(bridgeBtn, "external-link");
+    bridgeBtn.setAttribute("aria-label", "Open in Claude.ai");
     bridgeBtn.onclick = () => {
       if (this.documents.length === 0) {
         this.plugin.pushActiveNoteToClaude();
@@ -152,6 +150,11 @@ export class ChatView extends ItemView {
       }
       this.plugin.pushFilesToClaude(this.buildBridgeFiles());
     };
+
+    const clearBtn = btnRow.createEl("button", { cls: "dc-btn dc-btn-ghost dc-btn-icon" });
+    setIcon(clearBtn, "trash-2");
+    clearBtn.setAttribute("aria-label", "Clear chat");
+    clearBtn.onclick = () => this.clearChat();
 
     // Messages
     this.messagesEl = root.createDiv("dc-messages");
@@ -258,7 +261,6 @@ export class ChatView extends ItemView {
     }
 
     this.loadBtn.disabled = true;
-    this.loadBtn.setText("Loading…");
 
     try {
       const ext = file.extension.toLowerCase();
@@ -298,7 +300,6 @@ export class ChatView extends ItemView {
       this.pushError(`Failed to load file: ${(err as Error).message}`);
     } finally {
       this.loadBtn.disabled = false;
-      this.loadBtn.setText("＋ Load active file");
       this.inputEl.focus();
     }
   }

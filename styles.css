@@ -263,6 +263,17 @@
 .dc-btn-bridge { color: var(--interactive-accent); }
 .dc-btn-bridge:hover:not(:disabled) { color: var(--interactive-accent-hover); }
 
+.dc-btn-icon {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dc-btn-icon svg { width: 15px; height: 15px; }
+
 .dc-bridge-indicator {
   width: 8px;
   height: 8px;
