@@ -255,7 +255,7 @@
 }
 .dc-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.dc-btn-primary { background: var(--interactive-accent); color: var(--text-on-accent); flex: 1; }
+.dc-btn-primary { background: var(--interactive-accent); color: var(--text-on-accent); }
 .dc-btn-primary:hover:not(:disabled) { background: var(--interactive-accent-hover); }
 
 .dc-btn-ghost { background: var(--background-modifier-hover); color: var(--text-muted); }
