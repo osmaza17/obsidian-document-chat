@@ -99,6 +99,11 @@ You already downloaded and extracted the ZIP in Part 1. Inside the extracted fol
 
 You do not need to configure anything else. The extension works automatically in the background whenever you are on claude.ai.
 
+> **Tip — prevent the extension from disappearing on Chrome restarts:** Chrome shows a prompt on startup asking to disable developer mode extensions. If you click “Disable”, the extension is removed from your toolbar. To avoid this:
+> 1. Before loading the extension in Chrome, move the `claude-bridge-extension` folder to a permanent location, for example: `C:\Users\<your-username>\AppData\Roaming\chrome-extensions-local\claude-bridge-extension\`
+> 2. Load the extension in Chrome from that new location (instead of from the ZIP you extracted).
+> 3. When Chrome shows the “Disable developer mode extensions?” prompt on restart, click **Cancel** to keep the extension active.
+
 ---
 
 ## Setup
