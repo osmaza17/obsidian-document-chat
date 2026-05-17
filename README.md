@@ -37,9 +37,9 @@ The installation has two parts: the **Obsidian plugin** and the **Chrome extensi
 
 Go to this address in your browser and download the ZIP file:
 
-**[https://github.com/osmaza17/obsidian-document-chat/archive/refs/heads/master.zip](https://github.com/osmaza17/obsidian-document-chat/archive/refs/heads/master.zip)**
+**[https://github.com/osmaza17/obsidian-document-chat/archive/refs/heads/main.zip](https://github.com/osmaza17/obsidian-document-chat/archive/refs/heads/main.zip)**
 
-Once downloaded, extract the ZIP. You will get a folder called `obsidian-document-chat-master` with several files inside. **You only need three of them:**
+Once downloaded, extract the ZIP. You will get a folder called `obsidian-document-chat-main` with several files inside. **You only need three of them:**
 
 - `main.js`
 - `manifest.json`
